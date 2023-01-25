@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.980,=C:\Users\basok_n\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2023.01.24 23:28:17.939,=C:\Users\basok_n\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2023.01.24 23:29:03.391,Y:\Тестовое_Лес\uMain.pas=C:\Users\basok_n\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2023.01.24 23:29:03.391,Y:\Тестовое_Лес\uMain.dfm=C:\Users\basok_n\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>2023.01.24 23:29:31.842,Y:\Тестовое_Лес\TestingBGL.dproj=C:\Users\basok_n\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2023.01.24 23:44:10.795,=Y:\Тестовое_Лес\Unit1.pas</Transaction>
+    <Transaction>2023.01.24 23:52:16.723,Y:\Тестовое_Лес\uDatamodule.dfm=Y:\Тестовое_Лес\Unit1.dfm</Transaction>
+    <Transaction>2023.01.24 23:52:16.723,Y:\Тестовое_Лес\uDatamodule.pas=Y:\Тестовое_Лес\Unit1.pas</Transaction>
+    <Transaction>2023.01.25 03:19:42.535,=Y:\Тестовое_Лес\Unit1.pas</Transaction>
+    <Transaction>2023.01.25 03:24:19.210,Y:\Тестовое_Лес\uEditOrganization.dfm=Y:\Тестовое_Лес\Unit1.dfm</Transaction>
+    <Transaction>2023.01.25 03:24:19.210,Y:\Тестовое_Лес\uEditOrganization.pas=Y:\Тестовое_Лес\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
