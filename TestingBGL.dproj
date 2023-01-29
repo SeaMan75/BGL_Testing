@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>TestingBGL.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -107,10 +107,19 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="uEditOrganization.pas">
-            <Form>frmEditOrganizatins</Form>
+        <DCCReference Include="uEditKey.pas">
+            <Form>frmEditKey</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uEditBase.pas">
+            <Form>frmEditBase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uEditOrganization.pas">
+            <Form>frmEditOrganization</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uUtilities.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -134,6 +143,12 @@
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="Win32\Debug\TestingBGL.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>TestingBGL.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Release\TestingBGL.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>TestingBGL.exe</RemoteName>
                         <Overwrite>true</Overwrite>

@@ -32,9 +32,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitLeft = 192
-    ExplicitTop = 408
-    ExplicitWidth = 0
   end
   object cxPageControl1: TcxPageControl
     Left = 0
@@ -43,9 +40,8 @@ object frmMain: TfrmMain
     Height = 661
     Align = alClient
     TabOrder = 1
-    Properties.ActivePage = cxTabSheet1
+    Properties.ActivePage = cxTabSheet2
     Properties.CustomButtons.Buttons = <>
-    ExplicitTop = -6
     ClientRectBottom = 657
     ClientRectLeft = 4
     ClientRectRight = 905
@@ -54,7 +50,9 @@ object frmMain: TfrmMain
       Caption = #1054#1088#1075#1072#1085#1080#1079#1072#1094#1080#1080
       ImageIndex = 0
       ExplicitLeft = 3
-      ExplicitTop = 22
+      ExplicitTop = 25
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         901
         633)
@@ -73,9 +71,6 @@ object frmMain: TfrmMain
           Height = 547
           Align = alClient
           TabOrder = 0
-          ExplicitLeft = 1
-          ExplicitTop = 17
-          ExplicitHeight = 469
           object cxGrid1DBTableView1: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             OnCellDblClick = cxGrid1DBTableView1CellDblClick
@@ -139,36 +134,96 @@ object frmMain: TfrmMain
     object cxTabSheet2: TcxTabSheet
       Caption = #1050#1083#1102#1095#1080
       ImageIndex = 1
+      DesignSize = (
+        901
+        633)
       object cxGroupBox1: TcxGroupBox
         Left = 0
         Top = 0
         Align = alTop
         Caption = #1057#1087#1080#1089#1086#1082' '#1082#1083#1102#1095#1077#1081
         TabOrder = 0
-        ExplicitLeft = 3
-        Height = 489
+        Height = 570
         Width = 901
         object cxGrid2: TcxGrid
           Left = 2
           Top = 18
           Width = 897
-          Height = 469
+          Height = 550
           Align = alClient
           TabOrder = 0
-          ExplicitLeft = 96
-          ExplicitTop = 104
-          ExplicitWidth = 337
-          ExplicitHeight = 225
           object cxGridDBTableView1: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
+            DataController.DataSource = dsKeys
             DataController.Summary.DefaultGroupSummaryItems = <>
             DataController.Summary.FooterSummaryItems = <>
             DataController.Summary.SummaryGroups = <>
+            OptionsView.ColumnAutoWidth = True
+            OptionsView.GroupByBox = False
+            object cxGridDBTableView1Column1: TcxGridDBColumn
+              Caption = 'ID'
+              DataBinding.FieldName = 'key_id'
+              Options.Editing = False
+            end
+            object cxGridDBTableView1Column2: TcxGridDBColumn
+              Caption = #1053#1072#1079#1074#1072#1085#1080#1077' '#1086#1088#1075#1072#1085#1080#1079#1072#1094#1080#1080
+              DataBinding.FieldName = 'organization_name'
+              Options.Editing = False
+            end
+            object cxGridDBTableView1Column3: TcxGridDBColumn
+              Caption = #1050#1083#1102#1095
+              DataBinding.FieldName = 'key'
+              Options.Editing = False
+            end
+            object cxGridDBTableView1Column4: TcxGridDBColumn
+              Caption = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1076#1077#1081#1089#1090#1074#1080#1103
+              DataBinding.FieldName = 'date_start'
+              Options.Editing = False
+            end
+            object cxGridDBTableView1Column5: TcxGridDBColumn
+              Caption = #1044#1072#1090#1072' '#1086#1082#1086#1085#1095#1072#1085#1080#1103' '#1076#1077#1081#1089#1090#1074#1080#1103
+              DataBinding.FieldName = 'date_end'
+              Options.Editing = False
+            end
+            object cxGridDBTableView1Column6: TcxGridDBColumn
+              Caption = #1050#1083#1102#1095' '#1079#1072#1073#1083#1086#1082#1080#1088#1086#1074#1072#1085
+              DataBinding.FieldName = 'KeyLocked'
+              Options.Editing = False
+            end
           end
           object cxGridLevel1: TcxGridLevel
             GridView = cxGridDBTableView1
           end
         end
+      end
+      object cxButton3: TcxButton
+        Left = 11
+        Top = 574
+        Width = 161
+        Height = 57
+        Anchors = [akLeft, akBottom]
+        Caption = #1044#1086#1073#1072#1074#1080#1090#1100
+        TabOrder = 1
+        OnClick = cxButton3Click
+      end
+      object cxButton4: TcxButton
+        Left = 178
+        Top = 576
+        Width = 161
+        Height = 57
+        Anchors = [akLeft, akBottom]
+        Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+        TabOrder = 2
+        OnClick = cxButtonEditClick
+      end
+      object cxButton5: TcxButton
+        Left = 345
+        Top = 576
+        Width = 161
+        Height = 57
+        Anchors = [akLeft, akBottom]
+        Caption = #1059#1076#1072#1083#1080#1090#1100
+        TabOrder = 3
       end
     end
   end
@@ -177,7 +232,8 @@ object frmMain: TfrmMain
     Top = 152
   end
   object dsKeys: TDataSource
-    Left = 620
-    Top = 192
+    DataSet = Dm.qKeys
+    Left = 276
+    Top = 144
   end
 end

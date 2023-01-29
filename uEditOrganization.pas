@@ -4,48 +4,39 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
-  dxSkinsDefaultPainters, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxTextEdit,
-  cxLabel;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uEditBase, cxGraphics, cxLookAndFeels,
+  cxLookAndFeelPainters, Vcl.Menus, dxSkinsCore, dxSkinsDefaultPainters,
+  Vcl.StdCtrls, cxButtons, cxControls, cxContainer, cxEdit, cxTextEdit, cxLabel,
+  dxStatusBar;
 
 type
-
-  TformMode = (mode_edit, mode_append);
-  TfrmEditOrganizatins = class(TForm)
+  TfrmEditOrganization = class(TfrmEditBase)
     cxLabel1: TcxLabel;
-    cxeditName: TcxTextEdit;
-    cxButtonOk: TcxButton;
-    cxButton2: TcxButton;
-    cxTextEditOldName: TcxTextEdit;
-    procedure cxButtonOkClick(Sender: TObject);
-    procedure cxButton2Click(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure cxeditNameKeyPress(Sender: TObject; var Key: Char);
+    textEditName: TcxTextEdit;
+    procedure textEditNameKeyPress(Sender: TObject; var Key: Char);
   private
-    fMode : TformMode;
-    fId: Integer;
-    fOldName : String;
+    fOldName: string;
+    {******************************}
+    procedure btnOkClick; override;
+    procedure doFormShow; override;
+    {******************************}
   public
-    property formMode: TformMode read fMode write fMode;
-    property ID: integer read fId write fId;
     property oldName: String read fOldName write fOldName;
   end;
 
 var
-  frmEditOrganizatins: TfrmEditOrganizatins;
+  frmEditOrganization: TfrmEditOrganization;
 
 implementation
 
 {$R *.dfm}
-
 uses uDatamodule;
 
-procedure TfrmEditOrganizatins.cxButtonOkClick(Sender: TObject);
-var
-  sname: String;
+procedure TfrmEditOrganization.btnOkClick;
+  var
+    sname: String;
 begin
-  sname := trim(cxeditName.Text);
+  sname := trim(textEditName.Text);
   if sname <> '' then
   begin
       if fMode = mode_append then
@@ -58,33 +49,28 @@ begin
         dm.editOrganization(sname, fId);
         modalResult := mrOK;
         dm.qOrganizations.Refresh;
-      end;
+      end
   end;
 end;
 
-procedure TfrmEditOrganizatins.cxeditNameKeyPress(Sender: TObject;
+
+procedure TfrmEditOrganization.textEditNameKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key = #$0d then
     cxButtonOk.Click;
 end;
 
-procedure TfrmEditOrganizatins.cxButton2Click(Sender: TObject);
-begin
-  modalResult := mrCancel;
-end;
-
-procedure TfrmEditOrganizatins.FormShow(Sender: TObject);
+procedure TfrmEditOrganization.doFormShow;
 begin
   if fMode = mode_edit then
   begin
-    cxTextEditOldName.show;
-    cxTextEditOldName.Text := fOldName;
+    textEditName.Text := fOldName;
   end else
   begin
-    cxTextEditOldName.Hide;
+    textEditName.Text := '';
   end;
-
 end;
 
 end.
+

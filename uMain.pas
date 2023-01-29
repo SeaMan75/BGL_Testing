@@ -33,6 +33,15 @@ type
     cxButtonEdit: TcxButton;
     cxGrid1DBTableView1Column1: TcxGridDBColumn;
     cxGrid1DBTableView1Column2: TcxGridDBColumn;
+    cxGridDBTableView1Column1: TcxGridDBColumn;
+    cxGridDBTableView1Column2: TcxGridDBColumn;
+    cxGridDBTableView1Column3: TcxGridDBColumn;
+    cxGridDBTableView1Column4: TcxGridDBColumn;
+    cxGridDBTableView1Column5: TcxGridDBColumn;
+    cxGridDBTableView1Column6: TcxGridDBColumn;
+    cxButton3: TcxButton;
+    cxButton4: TcxButton;
+    cxButton5: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -41,6 +50,7 @@ type
     procedure cxGrid1DBTableView1CellDblClick(Sender: TcxCustomGridTableView;
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
+    procedure cxButton3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,16 +62,29 @@ var
 
 implementation
 uses
-  uDatamodule, uEditOrganization;
+  uDatamodule, uEditOrganization, uEditKey, uEditBase;
 
 {$R *.dfm}
 
 procedure TfrmMain.cxButton1Click(Sender: TObject);
 var
-  frm: TfrmEditOrganizatins;
+  frm: TfrmEditOrganization;
 begin
   try
-    frm := TfrmEditOrganizatins.Create(self);
+    frm := TfrmEditOrganization.Create(self);
+    frm.formMode := mode_append;
+    frm.ShowModal;
+  finally
+    freeAndNil(frm);
+  end;
+end;
+
+procedure TfrmMain.cxButton3Click(Sender: TObject);
+var
+  frm: TfrmEditKey;
+begin
+  try
+    frm := TfrmEditKey.Create(self);
     frm.formMode := mode_append;
     frm.ShowModal;
   finally
@@ -71,10 +94,10 @@ end;
 
 procedure TfrmMain.cxButtonEditClick(Sender: TObject);
 var
-  frm: TfrmEditOrganizatins;
+  frm: TfrmEditOrganization;
 begin
   try
-    frm := TfrmEditOrganizatins.Create(self);
+    frm := TfrmEditOrganization.Create(self);
     frm.formMode := mode_edit;
     frm.ID := dm.qOrganizations.FieldByName('Id').AsInteger;
     frm.oldName := dm.qOrganizations.FieldByName('Name').AsString;
