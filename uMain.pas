@@ -51,6 +51,7 @@ type
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
     procedure cxButton3Click(Sender: TObject);
+    procedure cxButton4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -92,6 +93,31 @@ begin
   end;
 end;
 
+procedure TfrmMain.cxButton4Click(Sender: TObject);
+var
+  frm: TfrmEditKey;
+
+begin
+
+  try
+    frm := TfrmEditKey.Create(self);
+    frm.formMode := mode_edit;
+    frm.CurrentOrganizationId := dm.qOrganizations.FieldByName('organization_id').AsInteger;
+    frm.CurrentKey := dm.qOrganizations.FieldByName('Key').AsString;
+    frm.CurrentDateStart := dm.qOrganizations.FieldByName('date_start').AsDateTime;
+    frm.CurrentDateEnd := dm.qOrganizations.FieldByName('date_end').AsDateTime;
+    frm.CurrentisLocked := dm.qOrganizations.FieldByName('isLocked').AsBoolean;
+
+    frm.ShowModal;
+  finally
+    freeAndNil(frm);
+  end;
+
+
+
+
+end;
+
 procedure TfrmMain.cxButtonEditClick(Sender: TObject);
 var
   frm: TfrmEditOrganization;
@@ -99,8 +125,8 @@ begin
   try
     frm := TfrmEditOrganization.Create(self);
     frm.formMode := mode_edit;
-    frm.ID := dm.qOrganizations.FieldByName('Id').AsInteger;
-    frm.oldName := dm.qOrganizations.FieldByName('Name').AsString;
+    frm.organizationID := dm.qOrganizations.FieldByName('Id').AsInteger;
+    frm.currentName := dm.qOrganizations.FieldByName('Name').AsString;
     frm.ShowModal;
   finally
     freeAndNil(frm);
@@ -137,6 +163,7 @@ begin
     dsOrganizations.DataSet := dm.qOrganizations;
     dsKeys.DataSet := dm.qKeys;
     dm.qOrganizations.Open;
+    dm.qKeys.Open;
 end;
 
 end.

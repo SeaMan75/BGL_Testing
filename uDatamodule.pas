@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, DBAccess, Uni, Data.DB, MemDS, UniProvider,
-  SQLiteUniProvider;
+  SQLiteUniProvider, Variants;
 
 const
   RESULT_OK = 0;
@@ -33,6 +33,7 @@ type
     procedure closeOrganizationKey;
     { Private declarations }
   public
+    function SQLtoLog(aSQL: TUniSQL):String;
     procedure closeAll;
     procedure openOrganizationList;
     procedure openOrganizationKeys;
@@ -151,6 +152,33 @@ begin
   qOrganizations.Open;
 end;
 
+function TDm.SQLtoLog(aSQL: TUniSQL): String;
+var
+ I        : Integer;
+ sName    : string;
+ sTValue  : string;
+ sSQL     : String;
+begin
+
+  sSQL := aSQL.SQL.Text;
+
+  for I := 0 to Pred(aSQL.ParamCount) do
+  begin
+    sName := aSQL.Params.Items[I].Name;
+    if not varIsNull(aSQL.Params.Items[I].Value) then
+    begin
+      sTValue := string(aSQL.Params.Items[I].Value);
+      if aSQL.Params.Items[I].DataType in [ftDate, ftDateTime, ftString, ftWideString] then
+        sTValue := #$22 + sTValue + #$22;
+
+    end   else sTValue := 'NULL';
+    sSQL := StringReplace(sSQL, ':' + sName, sTValue, [rfReplaceAll, rfIgnoreCase]);
+  end;
+
+  result := sSQL;
+
+end;
+
 function TDm.appendKey(aOrganizationId: Integer; aKey: String;
             aDateStart, aDateEnd: TDate;
             aIsLocked: boolean): Integer;
@@ -163,24 +191,27 @@ begin
 
     UniSQL.SQL.Text := 'INSERT INTO tbl_organization_key '+
       '(key, date_start, date_end, organization_id, isLocked) '+
-        'VALUES (:key, :date_start, :date_end, :organization_id, :isLocked) ' +
+      'SELECT :key, :date_start, :date_end, :organization_id, :isLocked ' +
       'WHERE NOT EXISTS (SELECT id FROM tbl_organization_key WHERE ' +
       'organization_id = :organization_id AND key = :key);';
 
     UniSQL.ParamByName('key').AsString := aKey;
-    UniSQL.ParamByName('date_start').AsDate := aKey;
-    UniSQL.ParamByName('date_end').AsDate := aKey;
-    UniSQL.ParamByName('organization_id').AsInteger := aKey;
-    UniSQL.ParamByName('isLocked').AsBoolean := aKey;
+    UniSQL.ParamByName('date_start').AsDate := aDateStart;
+    UniSQL.ParamByName('date_end').AsDate := aDateEnd;
+    UniSQL.ParamByName('organization_id').AsInteger := aOrganizationId;
+    UniSQL.ParamByName('isLocked').AsBoolean := aIsLocked;
 
-    logString(UniSQL.SQL.Text);
+    logString(SQLtoLog(UniSQL));
 
     UniSQL.Execute;
     DBConnection.Commit;
     result := RESULT_OK;
-  except
-    DBConnection.Rollback;
-    result := RESULT_FAIL;
+  except on e:Exception do
+    begin
+      logString(e.Message);
+      DBConnection.Rollback;
+      result := RESULT_FAIL;
+    end;
   end;
 
 

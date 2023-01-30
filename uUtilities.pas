@@ -6,9 +6,11 @@ uses
     , ActiveX
     , System.IOUtils
     , System.SyncObjs
-    , System.Classes;
+    , System.Classes
+    , ComObj;
 
-  procedure logString(aMessage: String);
+procedure logString(aMessage: String);
+function CreateGuid: string;
 
 implementation
 
@@ -56,6 +58,26 @@ implementation
     section.Leave;
 
   end;
+
+
+
+
+  function CreateGuid: string;
+  var
+     ID: TGUID;
+  begin
+    Result := '';
+    if CoCreateGuid(ID) = S_OK then
+       Result := GUIDToString(ID);
+  end;
+
+
+
+
+
+
+
+
 
 end.
 

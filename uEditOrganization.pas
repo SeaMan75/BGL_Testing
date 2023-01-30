@@ -15,13 +15,13 @@ type
     textEditName: TcxTextEdit;
     procedure textEditNameKeyPress(Sender: TObject; var Key: Char);
   private
-    fOldName: string;
+    fCurrentName: string;
     {******************************}
     procedure btnOkClick; override;
     procedure doFormShow; override;
     {******************************}
   public
-    property oldName: String read fOldName write fOldName;
+    property currentName: String read fCurrentName write fCurrentName;
   end;
 
 var
@@ -46,7 +46,7 @@ begin
         dm.qOrganizations.Refresh;
       end else
       begin
-        dm.editOrganization(sname, fId);
+        dm.editOrganization(sname, fOrganizationId);
         modalResult := mrOK;
         dm.qOrganizations.Refresh;
       end
@@ -65,7 +65,7 @@ procedure TfrmEditOrganization.doFormShow;
 begin
   if fMode = mode_edit then
   begin
-    textEditName.Text := fOldName;
+    textEditName.Text := fCurrentName;
   end else
   begin
     textEditName.Text := '';

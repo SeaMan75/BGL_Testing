@@ -19,7 +19,7 @@ type
     procedure cxButtonOkClick(Sender: TObject);
   protected
     fMode : TformMode;
-    fId: Integer;
+    fOrganizationId: Integer;
     procedure btnOkClick; virtual; abstract;
     procedure doFormShow; virtual; abstract;
   private
@@ -27,7 +27,7 @@ type
     { Private declarations }
   public
     property formMode: TformMode read fMode write fMode;
-    property ID: integer read fId write fId;
+    property organizationID: integer read fOrganizationId write fOrganizationId;
 
   end;
 

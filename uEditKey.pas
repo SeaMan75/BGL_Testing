@@ -9,13 +9,12 @@ uses
   Vcl.StdCtrls, cxButtons, cxControls, cxContainer, cxEdit, Vcl.ComCtrls,
   dxCore, cxDateUtils, cxCheckBox, cxDropDownEdit, cxCalendar, cxTextEdit,
   cxMaskEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxLabel, Data.DB,
-  Vcl.DBLookup, Vcl.DBCtrls, dxStatusBar;
+  Vcl.DBLookup, Vcl.DBCtrls, dxStatusBar, cxButtonEdit;
 
 type
   TfrmEditKey = class(TfrmEditBase)
     cxLabel1: TcxLabel;
     cxLabel2: TcxLabel;
-    textEditKey: TcxTextEdit;
     labelDate1: TcxLabel;
     labelDate2: TcxLabel;
     dateEditStart: TcxDateEdit;
@@ -23,13 +22,24 @@ type
     checkBoxLocked: TcxCheckBox;
     dsOrganization: TDataSource;
     cxLookUpComboBoxOrg: TcxLookupComboBox;
-    procedure lookup1PropertiesCloseUp(Sender: TObject);
+    cxButtonEditGUID: TcxButtonEdit;
+    procedure cxLookUpComboBoxOrgPropertiesCloseUp(Sender: TObject);
+    procedure cxButtonEditGUIDPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
+    fCurrentOrganizationId: Integer;
+    fCurrentKey: string;
+    fCurrentDateStart, fCurrentDateEnd: TDate;
+    fCurrentisLocked: Boolean;
     procedure btnOkClick; override;
     procedure doFormShow; override;
 
   public
-    { Public declarations }
+    property CurrentOrganizationId  : Integer;
+    property CurrentKey             : string;
+    property CurrentDateStart       : TDate;
+    property CurrentDateEnd         : TDate;
+    property CurrentisLocked        : Boolean;
   end;
 
 var
@@ -45,53 +55,72 @@ uses
 
 procedure TfrmEditKey.btnOkClick;
 var
-  sKey :Integer;
-  orgId: Integer;
+  sKey :String;
   dateStart
   , dateEnd: TDate;
   isLocked: Boolean;
 
 begin
 
-  sKey := trim(textEditKey.Text);
-
-
+  sKey := trim(cxButtonEditGUID.Text);
+  dateStart := dateEditStart.Date;
+  dateEnd := dateEditEnd.Date;
+  isLocked := checkBoxLocked.Checked;
 
   if (sKey <> '')
-  and (orgId <> -1)
-  and not VarIsNull(dateStart)
-  and not VarIsNull(dateEnd) then
+    and (fOrganizationId <> -1)
+    and not VarIsNull(dateStart)
+    and not VarIsNull(dateEnd) then
   begin
       if fMode = mode_append then
       begin
-        dm.appendKey(orgId, sKey, dateEditStart, dateEditEnd, isLocked );
+        dm.appendKey(fOrganizationId, sKey, dateStart, dateEnd, isLocked);
         modalResult := mrOK;
         dm.qKeys.Refresh;
-
       end else
       begin
-        dm.editOrganization(sname, fId);
+       {dm.editOrganization(sname, fOrganizationId);
         modalResult := mrOK;
-        dm.qOrganizations.Refresh;
+        dm.qOrganizations.Refresh; }
       end
+  end else
+  begin
+    ModalResult := mrNone;
+    MessageDlg('Заполните корректно поля', mtInformation,[mbOK], 0);
   end;
+end;
 
+procedure TfrmEditKey.cxButtonEditGUIDPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  cxButtonEditGUID.Text := CreateGuid;
+end;
+
+procedure TfrmEditKey.cxLookUpComboBoxOrgPropertiesCloseUp(Sender: TObject);
+begin
+  fOrganizationId := cxLookUpComboBoxOrg.EditValue;
+  statusBarX.Panels[1].Text := intToStr(fOrganizationId);
 end;
 
 procedure TfrmEditKey.doFormShow;
 begin
+
+
+
   dm.openOrganizationList;
-
-end;
-
-procedure TfrmEditKey.lookup1PropertiesCloseUp(Sender: TObject);
-
-begin
-
- { with TcxDBLookupComboBox(Sender) do
+ // dm.openOrganizationKeys;
+  if fMode = mode_edit then
   begin
-    .......
-  end;}
+    fOrganizationId := -1;
+    dateEditStart.Date := Now;
+    dateEditEnd.Date := IncMonth(Now, 12);
+  end else
+  begin
+    fOrganizationId := fCurrentOrganizationId;
+    dateEditStart.Date := fCurrentDateStart;
+    dateEditEnd.Date := fCurrentDateEnd;
+    checkBoxLocked.Checked := fCurrentisLocked;
+  end;
 
 end;
 

@@ -49,10 +49,6 @@ object frmMain: TfrmMain
     object cxTabSheet1: TcxTabSheet
       Caption = #1054#1088#1075#1072#1085#1080#1079#1072#1094#1080#1080
       ImageIndex = 0
-      ExplicitLeft = 3
-      ExplicitTop = 25
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         901
         633)
@@ -152,6 +148,7 @@ object frmMain: TfrmMain
           Height = 550
           Align = alClient
           TabOrder = 0
+          ExplicitLeft = 3
           object cxGridDBTableView1: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             DataController.DataSource = dsKeys
@@ -208,13 +205,13 @@ object frmMain: TfrmMain
       end
       object cxButton4: TcxButton
         Left = 178
-        Top = 576
+        Top = 574
         Width = 161
         Height = 57
         Anchors = [akLeft, akBottom]
         Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
         TabOrder = 2
-        OnClick = cxButtonEditClick
+        OnClick = cxButton4Click
       end
       object cxButton5: TcxButton
         Left = 345
